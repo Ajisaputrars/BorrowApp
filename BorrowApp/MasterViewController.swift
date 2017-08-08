@@ -17,7 +17,6 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
         
     }
 
@@ -35,25 +34,20 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         
         let fetchRequest: NSFetchRequest<BorrowItem> = BorrowItem.fetchRequest()
         
-        // Set the batch size to a suitable number.
-        fetchRequest.fetchBatchSize = 20
         
-        // Edit the sort key as appropriate.
+        fetchRequest.fetchBatchSize = 20            // Set the batch size to a suitable number.
+        
         let sortDescriptor = NSSortDescriptor(key: "endDate", ascending: true)
-        
         fetchRequest.sortDescriptors = [sortDescriptor]
-        
-        // Edit the section name key path and cache name if appropriate.
-        // nil for section name key path means "no sections".
+    
         let aFetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: self.managedObjectContext!, sectionNameKeyPath: nil, cacheName: "Master")
         aFetchedResultsController.delegate = self
+        
         _fetchedResultsController = aFetchedResultsController
         
         do {
             try _fetchedResultsController!.performFetch()
         } catch {
-            // Replace this implementation with code to handle the error appropriately.
-            // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
             let nserror = error as NSError
             fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
         }
@@ -77,8 +71,16 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         let borrowItemObject = self.fetchedResultsController.object(at: indexPath)
-        cell.textLabel?.text = borrowItemObject.title
+        configureCell(cell, withBorrowItem: borrowItemObject)
         return cell
+    }
+    
+    func configureCell(_ cell: UITableViewCell, withBorrowItem borrowItem: BorrowItem) {
+        cell.textLabel?.text = borrowItem.title
+        if let availableImageData = borrowItem.image  as Data? {
+            cell.imageView?.image = UIImage(data: availableImageData)
+        }
+
     }
     
     // MARK: - Segues
@@ -139,9 +141,6 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
         }
     }
 
-    func configureCell(_ cell: UITableViewCell, withEvent event: Event) {
-        cell.textLabel!.text = event.timestamp!.description
-    }
 
     
     func controllerWillChangeContent(_ controller: NSFetchedResultsController<NSFetchRequestResult>) {

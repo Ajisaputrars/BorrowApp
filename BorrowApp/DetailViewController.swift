@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class DetailViewController: UITableViewController {
+class DetailViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
     @IBOutlet weak var itemTitleTextField: UITextField!
     @IBOutlet weak var itemImageView: UIImageView!
@@ -17,6 +17,16 @@ class DetailViewController: UITableViewController {
     @IBOutlet weak var returnAtLabel: UILabel!
     @IBOutlet weak var personImageView: UIImageView!
     @IBOutlet weak var personTextField: UITextField!
+    
+    var personImageAdded = false
+    var itemImageAdded = false
+    
+    enum PicturePurpose{
+        case item
+        case person
+    }
+    
+    var PicturePurposeSelector: PicturePurpose = .item
     
     var moc:NSManagedObjectContext!
     
@@ -32,8 +42,10 @@ class DetailViewController: UITableViewController {
             let borrowItem = BorrowItem(context: moc)
             borrowItem.title = itemTitleTextField.text
             
+            if let itemImage = itemImageView.image {
+                borrowItem.image = NSData(data: UIImageJPEGRepresentation(itemImage, 0.3)!)
+            }
             
-            //TODO: Not yet done
         }
         
         do {
@@ -44,8 +56,36 @@ class DetailViewController: UITableViewController {
 
     }
     
+    func addPictureForItem(){
+        PicturePurposeSelector = .item
+        addImageWithPurpose()
+    }
+    
+    func addPictureForPerson(){
+        PicturePurposeSelector = .person
+        addImageWithPurpose()
+    }
+    
+    func addImageWithPurpose(){
+        let imagePickerVC = UIImagePickerController()
+        imagePickerVC.delegate = self
+        
+        imagePickerVC.sourceType = .photoLibrary
+        
+        self.present(imagePickerVC, animated: true, completion: nil)
+        
+    }
+    
     func configureView() {
-        // Update the user interface for the detail item.
+        if let titleTextField = itemTitleTextField {
+            if let borrowItem = detailItem {
+                titleTextField.text = borrowItem.title
+                if let availableImage = borrowItem.image as Data? {
+                    itemImageView.image = UIImage(data: availableImage)
+                }
+                
+            }
+        }
     }
 
     override func viewDidLoad() {
@@ -53,6 +93,11 @@ class DetailViewController: UITableViewController {
         
         moc = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         
+        let itemGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(DetailViewController.addPictureForItem))
+        itemImageView.addGestureRecognizer(itemGestureRecognizer)
+        
+        let personGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(DetailViewController.addPictureForPerson))
+        personImageView.addGestureRecognizer(personGestureRecognizer)
         
         configureView()
         
@@ -61,6 +106,26 @@ class DetailViewController: UITableViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
+        if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
+            
+            let scaledImage = UIImage.scaleImage(image: image, toWidth: 120, andHeight: 120)
+            
+            if PicturePurposeSelector == .item {
+                itemImageView.image = scaledImage
+                itemImageAdded = true
+            } else {
+                personImageView.image = scaledImage
+                personImageAdded = true
+            }
+        }
+        picker.dismiss(animated: true, completion: nil)
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: nil)
     }
 
 //    var detailItem: Event? {
