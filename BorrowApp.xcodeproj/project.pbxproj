@@ -21,6 +21,7 @@
 		D740C7541F395AAB005B2C6E /* gl-calendar-shadow.png in Resources */ = {isa = PBXBuildFile; fileRef = D740C7471F395AAB005B2C6E /* gl-calendar-shadow.png */; };
 		D740C7551F395AAB005B2C6E /* gl-calendar-shadow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D740C7481F395AAB005B2C6E /* gl-calendar-shadow@2x.png */; };
 		D740C7561F395AAB005B2C6E /* gl-calendar-shadow@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D740C7491F395AAB005B2C6E /* gl-calendar-shadow@3x.png */; };
+		D740C75A1F395E9E005B2C6E /* TimeframeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D740C7591F395E9E005B2C6E /* TimeframeViewController.swift */; };
 		D76A97921F37FC1F0083C58B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76A97911F37FC1F0083C58B /* AppDelegate.swift */; };
 		D76A97951F37FC1F0083C58B /* BorrowApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D76A97931F37FC1F0083C58B /* BorrowApp.xcdatamodeld */; };
 		D76A97971F37FC1F0083C58B /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76A97961F37FC1F0083C58B /* MasterViewController.swift */; };
@@ -70,6 +71,8 @@
 		D740C7471F395AAB005B2C6E /* gl-calendar-shadow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gl-calendar-shadow.png"; sourceTree = "<group>"; };
 		D740C7481F395AAB005B2C6E /* gl-calendar-shadow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gl-calendar-shadow@2x.png"; sourceTree = "<group>"; };
 		D740C7491F395AAB005B2C6E /* gl-calendar-shadow@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gl-calendar-shadow@3x.png"; sourceTree = "<group>"; };
+		D740C7571F395B95005B2C6E /* BridgingHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
+		D740C7591F395E9E005B2C6E /* TimeframeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeframeViewController.swift; sourceTree = "<group>"; };
 		D76A978E1F37FC1F0083C58B /* BorrowApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BorrowApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D76A97911F37FC1F0083C58B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D76A97941F37FC1F0083C58B /* BorrowApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BorrowApp.xcdatamodel; sourceTree = "<group>"; };
@@ -154,6 +157,15 @@
 			path = Images;
 			sourceTree = "<group>";
 		};
+		D740C7581F395C5C005B2C6E /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				D740C7341F395AAB005B2C6E /* Sources */,
+				D740C7321F38E1EA005B2C6E /* UIImage+Scale.swift */,
+			);
+			name = Helper;
+			sourceTree = "<group>";
+		};
 		D76A97851F37FC1F0083C58B = {
 			isa = PBXGroup;
 			children = (
@@ -177,15 +189,16 @@
 		D76A97901F37FC1F0083C58B /* BorrowApp */ = {
 			isa = PBXGroup;
 			children = (
-				D740C7341F395AAB005B2C6E /* Sources */,
+				D740C7581F395C5C005B2C6E /* Helper */,
 				D76A97911F37FC1F0083C58B /* AppDelegate.swift */,
 				D76A97961F37FC1F0083C58B /* MasterViewController.swift */,
-				D740C7321F38E1EA005B2C6E /* UIImage+Scale.swift */,
 				D76A97981F37FC1F0083C58B /* DetailViewController.swift */,
+				D740C7591F395E9E005B2C6E /* TimeframeViewController.swift */,
 				D76A979A1F37FC1F0083C58B /* Main.storyboard */,
 				D76A979D1F37FC1F0083C58B /* Assets.xcassets */,
 				D76A979F1F37FC1F0083C58B /* LaunchScreen.storyboard */,
 				D76A97A21F37FC1F0083C58B /* Info.plist */,
+				D740C7571F395B95005B2C6E /* BridgingHeader.h */,
 				D76A97931F37FC1F0083C58B /* BorrowApp.xcdatamodeld */,
 			);
 			path = BorrowApp;
@@ -354,6 +367,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D740C74A1F395AAB005B2C6E /* GLCalendarDateRange.m in Sources */,
+				D740C75A1F395E9E005B2C6E /* TimeframeViewController.swift in Sources */,
 				D76A97951F37FC1F0083C58B /* BorrowApp.xcdatamodeld in Sources */,
 				D740C7511F395AAB005B2C6E /* GLDateUtils.m in Sources */,
 				D76A97921F37FC1F0083C58B /* AppDelegate.swift in Sources */,
@@ -523,6 +537,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ajisaputrars.BorrowApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = BorrowApp/BridgingHeader.h;
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -537,6 +552,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.ajisaputrars.BorrowApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = BorrowApp/BridgingHeader.h;
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

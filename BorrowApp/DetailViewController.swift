@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class DetailViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class DetailViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, TimeFrameDelegate {
 
     @IBOutlet weak var itemTitleTextField: UITextField!
     @IBOutlet weak var itemImageView: UIImageView!
@@ -20,6 +20,8 @@ class DetailViewController: UITableViewController, UIImagePickerControllerDelega
     
     var personImageAdded = false
     var itemImageAdded = false
+    var startDate:NSDate?
+    var endDate:NSDate?
     
     enum PicturePurpose{
         case item
@@ -46,7 +48,24 @@ class DetailViewController: UITableViewController, UIImagePickerControllerDelega
                 borrowItem.image = NSData(data: UIImageJPEGRepresentation(itemImage, 0.3)!)
             }
             
+            if let availableStartDate = startDate {
+                borrowItem.startDate = availableStartDate
+            }
+            
+            if let availableEndDate = endDate {
+                borrowItem.endDate = availableEndDate
+            }
+            
+        } else {
+            if let availableStartDate = startDate {
+                detailItem?.startDate = availableStartDate
+            }
+            
+            if let availableEndDate = endDate {
+                detailItem?.endDate = availableEndDate
+            }
         }
+        
         
         do {
             try moc.save()
@@ -80,10 +99,21 @@ class DetailViewController: UITableViewController, UIImagePickerControllerDelega
         if let titleTextField = itemTitleTextField {
             if let borrowItem = detailItem {
                 titleTextField.text = borrowItem.title
+                
                 if let availableImage = borrowItem.image as Data? {
                     itemImageView.image = UIImage(data: availableImage)
                 }
                 
+                let dateFormatter = DateFormatter()
+                dateFormatter.dateFormat = "MM/dd/yyyy"
+                
+                if let startDateToDisplay = detailItem?.startDate as Date? {
+                    borrowedAtLabel.text = "Borrowed at: \(dateFormatter.string(from: startDateToDisplay))"
+                }
+                
+                if let endDateToDisplay = detailItem?.endDate as Date?{
+                    returnAtLabel.text = "Return at: \(dateFormatter.string(from: endDateToDisplay))"
+                }
             }
         }
     }
@@ -127,6 +157,26 @@ class DetailViewController: UITableViewController, UIImagePickerControllerDelega
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         picker.dismiss(animated: true, completion: nil)
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showTimeFrameVC" {
+            let timeFrameVC = segue.destination as! TimeframeViewController
+            timeFrameVC.timeFrameDelegate = self
+        }
+    }
+    
+    func didSelectTimeRange(range: GLCalendarDateRange) {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd/MM/yyyy"
+        
+        borrowedAtLabel.text = "Borrowed At \(dateFormatter.string(from: range.beginDate))"
+        returnAtLabel.text = "Return At \(dateFormatter.string(from: range.endDate))"
+        
+        startDate = range.beginDate as NSDate
+        endDate = range.endDate as NSDate
+
+    }
+    
 
 //    var detailItem: Event? {
 //        didSet {
