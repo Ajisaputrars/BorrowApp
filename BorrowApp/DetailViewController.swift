@@ -48,6 +48,43 @@ class DetailViewController: UITableViewController, UIImagePickerControllerDelega
                 borrowItem.image = NSData(data: UIImageJPEGRepresentation(itemImage, 0.3)!)
             }
             
+            let request:NSFetchRequest<Person> = Person.fetchRequest()
+            
+            if let name = personTextField.text {
+                request.predicate = NSPredicate(format: "name == %@", name)
+            }
+            
+            request.fetchLimit = 1
+            
+            
+            let numberOfResults = try! moc.count(for: request)
+            
+            if numberOfResults == 0 { // create a new person
+                let newPerson = Person(context: moc)
+                
+                newPerson.name = personTextField.text
+                
+                if let personImageToSave = personImageView.image {
+                    newPerson.image = NSData(data:UIImageJPEGRepresentation(personImageToSave, 0.3)!)
+                }
+                
+                newPerson.addToBorrowItem(borrowItem)
+                
+            }else{
+                var items = [Person]()
+                
+                do {
+                    try items = moc.fetch(request)
+                }catch{
+                    print(error)
+                }
+                
+                if let foundPerson = items.first {
+                    foundPerson.addToBorrowItem(borrowItem)
+                }
+                
+            }
+            
             if let availableStartDate = startDate {
                 borrowItem.startDate = availableStartDate
             }
@@ -107,12 +144,20 @@ class DetailViewController: UITableViewController, UIImagePickerControllerDelega
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "MM/dd/yyyy"
                 
-                if let startDateToDisplay = detailItem?.startDate as Date? {
+                if let startDateToDisplay = borrowItem.startDate as Date? {
                     borrowedAtLabel.text = "Borrowed at: \(dateFormatter.string(from: startDateToDisplay))"
                 }
                 
-                if let endDateToDisplay = detailItem?.endDate as Date?{
+                if let endDateToDisplay = borrowItem.endDate as Date?{
                     returnAtLabel.text = "Return at: \(dateFormatter.string(from: endDateToDisplay))"
+                }
+                
+                if let assosiatedPerson = borrowItem.person{
+                    personTextField.text = assosiatedPerson.name
+                    
+                    if let personImageData = assosiatedPerson.image as Data? {
+                        personImageView.image = UIImage(data: personImageData)
+                    }
                 }
             }
         }
