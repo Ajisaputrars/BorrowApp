@@ -31,6 +31,8 @@
 		D76A97A11F37FC1F0083C58B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D76A979F1F37FC1F0083C58B /* LaunchScreen.storyboard */; };
 		D76A97AC1F37FC1F0083C58B /* BorrowAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76A97AB1F37FC1F0083C58B /* BorrowAppTests.swift */; };
 		D76A97B71F37FC1F0083C58B /* BorrowAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76A97B61F37FC1F0083C58B /* BorrowAppUITests.swift */; };
+		D7F748ED1F3B0B5D00EF322D /* MLPAutoCompleteTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = D7F748E71F3B0B5D00EF322D /* MLPAutoCompleteTextField.m */; };
+		D7F748EE1F3B0B5D00EF322D /* NSString+Levenshtein.m in Sources */ = {isa = PBXBuildFile; fileRef = D7F748EC1F3B0B5D00EF322D /* NSString+Levenshtein.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +90,13 @@
 		D76A97B21F37FC1F0083C58B /* BorrowAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = BorrowAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D76A97B61F37FC1F0083C58B /* BorrowAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BorrowAppUITests.swift; sourceTree = "<group>"; };
 		D76A97B81F37FC1F0083C58B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D7F748E61F3B0B5D00EF322D /* MLPAutoCompleteTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLPAutoCompleteTextField.h; sourceTree = "<group>"; };
+		D7F748E71F3B0B5D00EF322D /* MLPAutoCompleteTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MLPAutoCompleteTextField.m; sourceTree = "<group>"; };
+		D7F748E81F3B0B5D00EF322D /* MLPAutoCompleteTextFieldDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLPAutoCompleteTextFieldDataSource.h; sourceTree = "<group>"; };
+		D7F748E91F3B0B5D00EF322D /* MLPAutoCompleteTextFieldDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLPAutoCompleteTextFieldDelegate.h; sourceTree = "<group>"; };
+		D7F748EA1F3B0B5D00EF322D /* MLPAutoCompletionObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MLPAutoCompletionObject.h; sourceTree = "<group>"; };
+		D7F748EB1F3B0B5D00EF322D /* NSString+Levenshtein.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Levenshtein.h"; sourceTree = "<group>"; };
+		D7F748EC1F3B0B5D00EF322D /* NSString+Levenshtein.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Levenshtein.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,6 +169,7 @@
 		D740C7581F395C5C005B2C6E /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				D7F748E51F3B0B5D00EF322D /* MLPAutoCompleteTextField */,
 				D740C7341F395AAB005B2C6E /* Sources */,
 				D740C7321F38E1EA005B2C6E /* UIImage+Scale.swift */,
 			);
@@ -220,6 +230,20 @@
 				D76A97B81F37FC1F0083C58B /* Info.plist */,
 			);
 			path = BorrowAppUITests;
+			sourceTree = "<group>";
+		};
+		D7F748E51F3B0B5D00EF322D /* MLPAutoCompleteTextField */ = {
+			isa = PBXGroup;
+			children = (
+				D7F748E61F3B0B5D00EF322D /* MLPAutoCompleteTextField.h */,
+				D7F748E71F3B0B5D00EF322D /* MLPAutoCompleteTextField.m */,
+				D7F748E81F3B0B5D00EF322D /* MLPAutoCompleteTextFieldDataSource.h */,
+				D7F748E91F3B0B5D00EF322D /* MLPAutoCompleteTextFieldDelegate.h */,
+				D7F748EA1F3B0B5D00EF322D /* MLPAutoCompletionObject.h */,
+				D7F748EB1F3B0B5D00EF322D /* NSString+Levenshtein.h */,
+				D7F748EC1F3B0B5D00EF322D /* NSString+Levenshtein.m */,
+			);
+			path = MLPAutoCompleteTextField;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -369,12 +393,14 @@
 				D740C74A1F395AAB005B2C6E /* GLCalendarDateRange.m in Sources */,
 				D740C75A1F395E9E005B2C6E /* TimeframeViewController.swift in Sources */,
 				D76A97951F37FC1F0083C58B /* BorrowApp.xcdatamodeld in Sources */,
+				D7F748EE1F3B0B5D00EF322D /* NSString+Levenshtein.m in Sources */,
 				D740C7511F395AAB005B2C6E /* GLDateUtils.m in Sources */,
 				D76A97921F37FC1F0083C58B /* AppDelegate.swift in Sources */,
 				D740C74E1F395AAB005B2C6E /* GLCalendarMonthCoverView.m in Sources */,
 				D740C74D1F395AAB005B2C6E /* GLCalendarDayCellBackgroundCover.m in Sources */,
 				D76A97971F37FC1F0083C58B /* MasterViewController.swift in Sources */,
 				D740C74B1F395AAB005B2C6E /* GLCalendarDayCell.m in Sources */,
+				D7F748ED1F3B0B5D00EF322D /* MLPAutoCompleteTextField.m in Sources */,
 				D740C7331F38E1EA005B2C6E /* UIImage+Scale.swift in Sources */,
 				D76A97991F37FC1F0083C58B /* DetailViewController.swift in Sources */,
 				D740C74F1F395AAB005B2C6E /* GLCalendarView.m in Sources */,

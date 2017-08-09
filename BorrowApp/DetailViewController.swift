@@ -9,14 +9,14 @@
 import UIKit
 import CoreData
 
-class DetailViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, TimeFrameDelegate {
+class DetailViewController: UITableViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, TimeFrameDelegate, MLPAutoCompleteTextFieldDelegate, MLPAutoCompleteTextFieldDataSource {
 
     @IBOutlet weak var itemTitleTextField: UITextField!
     @IBOutlet weak var itemImageView: UIImageView!
     @IBOutlet weak var borrowedAtLabel: UILabel!
     @IBOutlet weak var returnAtLabel: UILabel!
     @IBOutlet weak var personImageView: UIImageView!
-    @IBOutlet weak var personTextField: UITextField!
+    @IBOutlet weak var personTextField: MLPAutoCompleteTextField!
     
     var personImageAdded = false
     var itemImageAdded = false
@@ -166,6 +166,12 @@ class DetailViewController: UITableViewController, UIImagePickerControllerDelega
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        personTextField.autoCompleteDelegate = self
+        personTextField.autoCompleteDataSource = self
+        personTextField.autoCompleteTableAppearsAsKeyboardAccessory = true
+        personTextField.autoCompleteTableBackgroundColor = UIColor.white
+
+        
         moc = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
         
         let itemGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(DetailViewController.addPictureForItem))
@@ -222,6 +228,47 @@ class DetailViewController: UITableViewController, UIImagePickerControllerDelega
 
     }
     
+    func autoCompleteTextField(_ textField: MLPAutoCompleteTextField!, possibleCompletionsFor string: String!) -> [Any]! {
+        let fetchRequest:NSFetchRequest<Person> = Person.fetchRequest()
+        
+        var personObjects = [Person]()
+        
+        do {
+            personObjects = try moc.fetch(fetchRequest)
+        }catch{
+            print(error)
+        }
+        
+        var nameArray = [String]()
+        
+        for person in personObjects {
+            if let name = person.name {
+                nameArray.append(name)
+            }
+        }
+        
+        return nameArray
+    }
+    
+    func autoCompleteTextField(_ textField: MLPAutoCompleteTextField!, didSelectAutoComplete selectedString: String!, withAutoComplete selectedObject: MLPAutoCompletionObject!, forRowAt indexPath: IndexPath!) {
+        let predicate = NSPredicate(format: "name == %@", selectedString)
+        
+        let fetchRequest:NSFetchRequest<Person> = Person.fetchRequest()
+        fetchRequest.predicate = predicate
+        
+        var selectedPerson:Person?
+        
+        do {
+            selectedPerson = try moc.fetch(fetchRequest).first
+        }catch{
+            print(error)
+        }
+        
+        if let imageData = selectedPerson?.image as? Data {
+            personImageView.image = UIImage(data: imageData)
+        }
+
+    }
 
 //    var detailItem: Event? {
 //        didSet {
