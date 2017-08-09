@@ -35,6 +35,7 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
             return _fetchedResultsController!
         }
         
+        
         let fetchRequest: NSFetchRequest<BorrowItem> = BorrowItem.fetchRequest()
         
         
