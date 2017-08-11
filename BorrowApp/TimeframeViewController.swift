@@ -19,6 +19,8 @@ class TimeframeViewController: UIViewController, GLCalendarViewDelegate {
     var timeFrame:GLCalendarDateRange? = nil
     var timeFrameDelegate:TimeFrameDelegate? = nil
     
+    var a = true
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
