@@ -12,19 +12,15 @@ protocol TimeFrameDelegate{
     func didSelectTimeRange(range:GLCalendarDateRange)
 }
 
-
-
 class TimeframeViewController: UIViewController, GLCalendarViewDelegate {
 
     @IBOutlet weak var calendarView: GLCalendarView!
-    
-    
+
     var timeFrame:GLCalendarDateRange? = nil
     var timeFrameDelegate:TimeFrameDelegate? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         
         calendarView.delegate = self
         

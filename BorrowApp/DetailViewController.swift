@@ -264,7 +264,7 @@ class DetailViewController: UITableViewController, UIImagePickerControllerDelega
             print(error)
         }
         
-        if let imageData = selectedPerson?.image as? Data {
+        if let imageData = selectedPerson?.image as Data? {
             personImageView.image = UIImage(data: imageData)
         }
 

@@ -13,9 +13,6 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
 
     var detailViewController: DetailViewController? = nil
     var managedObjectContext: NSManagedObjectContext? = nil
-    
-    var sortType = "date"
-    
 
 
     override func viewDidLoad() {
@@ -92,7 +89,6 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
                 cell.detailTextLabel?.text = "Borrowed at: \(dateformatter.string(from: startDate)) - Return at: \(dateformatter.string(from: endDate))"
             }
         }
-
     }
     
     // MARK: - Segues
@@ -108,17 +104,6 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
             }
         }
     }
-    
-//    func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange sectionInfo: NSFetchedResultsSectionInfo, atSectionIndex sectionIndex: Int, for type: NSFetchedResultsChangeType) {
-//        switch type {
-//        case .insert:
-//            self.tableView.insertSections(IndexSet(integer: sectionIndex), with: .fade)
-//        case .delete:
-//            self.tableView.deleteSections(IndexSet(integer: sectionIndex), with: .fade)
-//        default:
-//            return
-//        }
-//    }
     
     func controller(_ controller: NSFetchedResultsController<NSFetchRequestResult>, didChange anObject: Any, at indexPath: IndexPath?, for type: NSFetchedResultsChangeType, newIndexPath: IndexPath?) {
         switch type {
@@ -141,8 +126,6 @@ class MasterViewController: UITableViewController, NSFetchedResultsControllerDel
             do {
                 try context.save()
             } catch {
-                // Replace this implementation with code to handle the error appropriately.
-                // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
                 let nserror = error as NSError
                 fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
             }
