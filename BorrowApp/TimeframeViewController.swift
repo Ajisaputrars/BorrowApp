@@ -46,10 +46,6 @@ class TimeframeViewController: UIViewController, GLCalendarViewDelegate {
         DispatchQueue.main.async { 
             self.calendarView.scroll(to: self.calendarView.lastDate, animated: false)
         }
-        
-        
-
-        
     }
     @IBAction func donePressed(_ sender: UIButton) {
         

@@ -18,6 +18,7 @@ class DetailViewController: UITableViewController, UIImagePickerControllerDelega
     @IBOutlet weak var personImageView: UIImageView!
     @IBOutlet weak var personTextField: MLPAutoCompleteTextField!
     
+    
     var personImageAdded = false
     var itemImageAdded = false
     var startDate:NSDate?
